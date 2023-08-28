@@ -20,7 +20,7 @@ def load_data():
     for name, source in zip(FIELDS,
                             [f'{st.session_state["edizione"]}/{field}.xlsx' for field in FIELDS]):
         try:
-            data = pd.read_excel(source).fillna(value="")
+            data = pd.read_excel(source)#.fillna(value="")
             st.session_state[st.session_state["edizione"]][name] = data
         except Exception as e:
             st.error(f"{e}")
@@ -50,7 +50,7 @@ for name in FIELDS:
             graph = st.checkbox("Visualizza grafico", key=f"checkbox_{name}")
             if graph:
                 progression = dataframe.set_index("NOME").sort_values(by="TOTALE", ascending=False).drop(
-                    columns=["TOTALE", "PREMI"]).T.cumsum()
+                    columns=["TOTALE"]).T.cumsum()
                 fig = px.line(progression, title="Progressione punteggio").update_layout(
                     xaxis_title="Gironi torneo", yaxis_title="Punteggio fanta",
                 )
